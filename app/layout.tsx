@@ -1,4 +1,7 @@
+import { Chivo } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+
+const chivo = Chivo({ subsets: ['latin'], variable: '--font-sans' })
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
@@ -44,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${chivo.variable} antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
