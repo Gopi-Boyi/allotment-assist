@@ -6,7 +6,6 @@ import {
   Building2,
   CalendarDays,
   Check,
-  ChevronDown,
   Clock3,
   FileCheck2,
   GraduationCap,
@@ -80,13 +79,14 @@ export default function Page() {
       {activePanel === 'home' && <>
         <section className="status-strip shell" aria-label="Admissions status"><div className="status-item"><span className="status-dot" /> MCA allotment reporting is open</div><div className="status-divider" /><div className="status-item"><CalendarDays size={15} /> Next available date: <strong>21 August 2026</strong></div><button className="status-link" onClick={openSlot}>Reserve now <ArrowRight size={14} /></button></section>
         <section className="hero shell">
+          <div className="hero-video" aria-hidden="true"><iframe src="https://www.youtube-nocookie.com/embed/xo7Z8Msvz6I?autoplay=1&mute=1&loop=1&playlist=xo7Z8Msvz6I&controls=0&rel=0&modestbranding=1" title="Aditya University campus video" allow="autoplay; encrypted-media" /></div>
           <div className="hero-copy">
             <div className="eyebrow"><span className="eyebrow-line" /> MCA ALLOTMENT 2026</div>
             <h2>Your seat is confirmed.<br /><em>Let&apos;s make your visit easy.</em></h2>
             <p>One simple place to book your reporting slot, prepare your certificates, and reach the right block, floor and desk at Aditya University.</p>
             <div className="hero-actions"><button className="primary-btn" onClick={openSlot}>Book your slot <ArrowRight size={17} /></button><button className="text-btn" onClick={() => setActivePanel('documents')}>View documents <ArrowRight size={16} /></button></div>
           </div>
-          <div className="hero-visual" aria-label="Aditya University campus illustration"><div className="sun" /><div className="building building-a"><span>ADITYA</span></div><div className="building building-b"><span>UNIVERSITY</span></div><div className="building building-c" /><div className="tree tree-one" /><div className="tree tree-two" /><div className="path" /></div>
+
         </section>
         <section className="shell intro-grid"><div><p className="section-label">START HERE</p><h3>Everything you need<br />before you arrive.</h3><p className="source-note">University details sourced from <a href="https://www.adityauniversity.in/" target="_blank" rel="noreferrer">adityauniversity.in</a>.</p></div><div className="intro-side"><p className="intro-text">Skip the queues and uncertainty. Choose a time that works for you, carry the right originals, and follow our clear campus directions to complete your MCA allotment smoothly.</p><div className="arrival-note"><ShieldCheck size={17} /><span><strong>Reporting tip</strong> Arrive 15 minutes before your slot.</span></div></div></section>
         <section className="shell feature-grid">
