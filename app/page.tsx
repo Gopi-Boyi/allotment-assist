@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   Building2,
@@ -53,8 +53,19 @@ export default function Page() {
   const [booked, setBooked] = useState(false)
   const [bookingStep, setBookingStep] = useState<1 | 2>(1)
   const [bookingDetails, setBookingDetails] = useState({ name: '', mobile: '', email: '', address: '' })
+  const [slotLoading, setSlotLoading] = useState(false)
+  const [selectedDate, setSelectedDate] = useState('2026-08-21')
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const modalRef = useRef<HTMLElement | null>(null)
 
-  const openSlot = () => {
+  const closeSlot = () => {
+    setSlotOpen(false)
+    window.setTimeout(() => triggerRef.current?.focus(), 0)
+  }
+
+  const openSlot = (event?: { currentTarget: HTMLButtonElement }) => {
+    triggerRef.current = event?.currentTarget ?? document.activeElement as HTMLButtonElement
+
     setBooked(false)
     setBookingStep(1)
     setSelectedSlot('')
@@ -66,6 +77,32 @@ export default function Page() {
   }
 
   const canConfirm = Object.values(bookingDetails).every(Boolean) && selectedSlot
+
+  useEffect(() => {
+    if (!slotOpen) return
+    const previous = document.activeElement as HTMLElement | null
+    const focusable = () => Array.from(modalRef.current?.querySelectorAll<HTMLElement>('button, input, textarea, select, a[href]') ?? []).filter((element) => !element.hasAttribute('disabled'))
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); closeSlot(); return }
+      if (event.key !== 'Tab') return
+      const elements = focusable()
+      if (!elements.length) return
+      const first = elements[0]
+      const last = elements[elements.length - 1]
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    focusable()[0]?.focus()
+    return () => { document.removeEventListener('keydown', onKeyDown); previous?.focus() }
+  }, [slotOpen])
+
+  useEffect(() => {
+    if (!slotOpen || bookingStep !== 2) return
+    setSlotLoading(true)
+    const timer = window.setTimeout(() => setSlotLoading(false), 650)
+    return () => window.clearTimeout(timer)
+  }, [slotOpen, bookingStep, selectedDate])
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -114,9 +151,9 @@ export default function Page() {
 
       {activePanel === 'university' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">OFFICIAL UNIVERSITY DETAILS</p><h2>About Aditya University</h2><p>Verified details to help you reach the right campus and prepare for MCA reporting.</p></div><a className="outline-btn" href="https://adityauniversity.in" target="_blank" rel="noreferrer">Open official website <ArrowRight size={16} /></a></div><div className="university-layout"><div className="campus-photo university-video" aria-label="Aditya University campus video"><iframe src="https://www.youtube-nocookie.com/embed/d4ViL61Tyqc?autoplay=1&mute=1&loop=1&playlist=d4ViL61Tyqc&controls=0&disablekb=1&fs=0&playsinline=1&rel=0&modestbranding=1" title="Aditya University campus video" allow="autoplay; encrypted-media" tabIndex={-1} /><div className="university-video-shade" /><div className="photo-caption"><Building2 size={17} /><span>Aditya Nagar campus<br /><strong>Surampalem, Kakinada</strong></span></div></div><div className="university-details"><div className="detail-card"><MapPin size={18} /><div><p className="card-label">CAMPUS ADDRESS</p><p>Aditya Nagar, ADB Road,<br />Surampalem, Kakinada District,<br />Andhra Pradesh – 533437</p></div></div><div className="detail-card"><GraduationCap size={18} /><div><p className="card-label">MCA PROGRAMME</p><p><strong>Eligibility:</strong> Recognized 3 or 4-year bachelor&apos;s degree with Mathematics at 10+2 level.</p><p><strong>Tuition:</strong> Approximately ₹1,00,000 per year.</p></div></div><div className="detail-card"><Phone size={18} /><div><p className="card-label">ADMISSIONS HELPLINE</p><p><a href="tel:+919989776661">+91 9989 776661</a><br /><Mail size={13} className="inline-icon" /> <a href="mailto:info@adityauniversity.in">info@adityauniversity.in</a></p></div></div></div></div></section>}
 
-      <footer className="site-footer"><div className="shell footer-inner"><div><p className="brand-kicker">ADITYA UNIVERSITY</p><p>Making your first step simpler.</p></div><p>© 2026 MCA Admissions Helpdesk</p></div></footer>
+      <footer className="site-footer"><div className="shell footer-inner"><div><p className="brand-kicker">ADITYA UNIVERSITY</p><p>Making your first step simpler.</p></div><div className="footer-links"><a href="mailto:info@adityauniversity.in">Contact</a><a href="/privacy">Privacy</a><span>© 2026 MCA Admissions Helpdesk</span></div></div></footer>
 
-      {slotOpen && <div className="modal-backdrop" role="presentation"><section className="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slot-title"><button className="close-btn" onClick={() => setSlotOpen(false)} aria-label="Close booking dialog"><X size={19} /></button>{booked ? <div className="booking-success"><span className="success-icon"><Check /></span><p className="section-label">SLOT RESERVED</p><h2>You&apos;re all set.</h2><p>Your MCA allotment visit is booked for <strong>{selectedSlot}</strong>. Please bring the documents listed on this website.</p><button className="primary-btn" onClick={() => setSlotOpen(false)}>Done <Check size={17} /></button></div> : <><div className="modal-progress"><div><span className="progress-dot active" /><span className={bookingStep === 2 ? 'progress-dot active' : 'progress-dot'} /></div><strong>Step {bookingStep} of 2</strong></div><p className="section-label">MCA ALLOTMENT 2026</p><h2 id="slot-title">{bookingStep === 1 ? 'Your details' : 'Choose your slot'}</h2><p className="modal-copy">{bookingStep === 1 ? 'Tell us who is arriving so we can reserve your reporting visit.' : 'Select a date and an available 30-minute time slot.'}</p>{bookingStep === 1 ? <div className="booking-step"><div className="booking-fields"><label className="field-label">Full name<input value={bookingDetails.name} onChange={(event) => updateBookingDetails('name', event.target.value)} placeholder="Enter your full name" /></label><label className="field-label">Mobile number<input type="tel" value={bookingDetails.mobile} onChange={(event) => updateBookingDetails('mobile', event.target.value)} placeholder="10-digit mobile number" /></label><label className="field-label">Email address<input type="email" value={bookingDetails.email} onChange={(event) => updateBookingDetails('email', event.target.value)} placeholder="you@example.com" /></label><label className="field-label">Address<textarea value={bookingDetails.address} onChange={(event) => updateBookingDetails('address', event.target.value)} placeholder="Enter your current address" rows={2} /></label></div><div className="modal-footer"><button className="primary-btn full-btn" disabled={!Object.values(bookingDetails).every(Boolean)} onClick={() => setBookingStep(2)}>Continue <ArrowRight size={17} /></button></div></div> : <div className="booking-step"><label className="field-label">Preferred date<select defaultValue="21 August 2026"><option>21 August 2026</option><option>22 August 2026</option><option>24 August 2026</option></select></label><p className="field-label">Available times <span className="slot-helper">30-minute slots · 9:00 AM – 4:00 PM</span></p><div className="slot-grid">{slots.map((slot) => <button key={slot} className={selectedSlot === slot ? 'slot-btn selected' : 'slot-btn'} onClick={() => setSelectedSlot(slot)}><Clock3 size={15} />{slot}</button>)}</div><div className="modal-footer split-footer"><button className="back-btn" onClick={() => setBookingStep(1)}>Back</button><button className="primary-btn" disabled={!canConfirm} onClick={() => setBooked(true)}>Confirm booking <Check size={17} /></button></div></div>}</>}</section></div>}
+      {slotOpen && <div className="modal-backdrop" role="presentation"><section ref={modalRef} className="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slot-title"><button className="close-btn" onClick={closeSlot} aria-label="Close booking dialog"><X size={19} /></button>{booked ? <div className="booking-success"><span className="success-icon"><Check /></span><p className="section-label">SLOT RESERVED</p><h2>You&apos;re all set.</h2><p>Your MCA allotment visit is booked for <strong>{selectedSlot}</strong>. Please bring the documents listed on this website.</p><button className="primary-btn" onClick={() => setSlotOpen(false)}>Done <Check size={17} /></button></div> : <><div className="modal-progress"><div><span className="progress-dot active" /><span className={bookingStep === 2 ? 'progress-dot active' : 'progress-dot'} /></div><strong>Step {bookingStep} of 2</strong></div><p className="section-label">MCA ALLOTMENT 2026</p><h2 id="slot-title">{bookingStep === 1 ? 'Your details' : 'Choose your slot'}</h2><p className="modal-copy">{bookingStep === 1 ? 'Tell us who is arriving so we can reserve your reporting visit.' : 'Select a date and an available 30-minute time slot.'}</p>{bookingStep === 1 ? <div className="booking-step"><div className="booking-fields"><label className="field-label">Full name<input value={bookingDetails.name} onChange={(event) => updateBookingDetails('name', event.target.value)} placeholder="Enter your full name" /></label><label className="field-label">Mobile number<input type="tel" value={bookingDetails.mobile} onChange={(event) => updateBookingDetails('mobile', event.target.value)} placeholder="10-digit mobile number" /></label><label className="field-label">Email address<input type="email" value={bookingDetails.email} onChange={(event) => updateBookingDetails('email', event.target.value)} placeholder="you@example.com" /></label><label className="field-label">Address<textarea value={bookingDetails.address} onChange={(event) => updateBookingDetails('address', event.target.value)} placeholder="Enter your current address" rows={2} /></label></div><div className="modal-footer"><button className="primary-btn full-btn" disabled={!Object.values(bookingDetails).every(Boolean)} onClick={() => setBookingStep(2)}>Continue <ArrowRight size={17} /></button></div></div> : <div className="booking-step"><label className="field-label">Preferred date<select defaultValue="21 August 2026"><option>21 August 2026</option><option>22 August 2026</option><option>24 August 2026</option></select></label><p className="field-label">Available times <span className="slot-helper">30-minute slots · 9:00 AM – 4:00 PM</span></p><div className="slot-grid">{slots.map((slot) => <button key={slot} className={selectedSlot === slot ? 'slot-btn selected' : 'slot-btn'} onClick={() => setSelectedSlot(slot)}><Clock3 size={15} />{slot}</button>)}</div><div className="modal-footer split-footer"><button className="back-btn" onClick={() => setBookingStep(1)}>Back</button><button className="primary-btn" disabled={!canConfirm} onClick={() => setBooked(true)}>Confirm booking <Check size={17} /></button></div></div>}</>}</section></div>}
     </main>
   )
 }

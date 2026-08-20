@@ -3,8 +3,14 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Allotment Assist · Aditya University MCA',
-  description: 'Book your MCA allotment reporting slot, prepare documents, and navigate the Aditya University campus.',
+  title: 'Allotment Assist · Aditya University',
+  description: 'Book your MCA reporting slot, prepare documents, and navigate Aditya University campus for admissions.',
+  openGraph: {
+    title: 'Allotment Assist · Aditya University',
+    description: 'Book your MCA reporting slot, prepare documents, and navigate Aditya University campus for admissions.',
+    images: ['/icon.svg'],
+    type: 'website',
+  },
   generator: 'v0.app',
   icons: {
     icon: [
