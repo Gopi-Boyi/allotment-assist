@@ -75,6 +75,7 @@ export default function Page() {
       </nav>
 
       {activePanel === 'home' && <>
+        <section className="status-strip shell" aria-label="Admissions status"><div className="status-item"><span className="status-dot" /> MCA allotment reporting is open</div><div className="status-divider" /><div className="status-item"><CalendarDays size={15} /> Next available date: <strong>21 August 2026</strong></div><button className="status-link" onClick={openSlot}>Reserve now <ArrowRight size={14} /></button></section>
         <section className="hero shell">
           <div className="hero-copy">
             <div className="eyebrow"><span className="eyebrow-line" /> MCA ALLOTMENT 2026</div>
@@ -84,7 +85,7 @@ export default function Page() {
           </div>
           <div className="hero-visual" aria-label="Aditya University campus illustration"><div className="sun" /><div className="building building-a"><span>ADITYA</span></div><div className="building building-b"><span>UNIVERSITY</span></div><div className="building building-c" /><div className="tree tree-one" /><div className="tree tree-two" /><div className="path" /></div>
         </section>
-        <section className="shell intro-grid"><div><p className="section-label">START HERE</p><h3>Everything you need<br />before you arrive.</h3></div><p className="intro-text">Skip the queues and uncertainty. Choose a time that works for you, carry the right originals, and follow our clear campus directions to complete your MCA allotment smoothly.</p></section>
+        <section className="shell intro-grid"><div><p className="section-label">START HERE</p><h3>Everything you need<br />before you arrive.</h3></div><div className="intro-side"><p className="intro-text">Skip the queues and uncertainty. Choose a time that works for you, carry the right originals, and follow our clear campus directions to complete your MCA allotment smoothly.</p><div className="arrival-note"><ShieldCheck size={17} /><span><strong>Reporting tip</strong> Arrive 15 minutes before your slot.</span></div></div></section>
         <section className="shell feature-grid">
           <button className="feature-card feature-blue" onClick={openSlot}><span className="icon-box"><CalendarDays /></span><div><p className="card-label">01 · APPOINTMENT</p><h4>Book a reporting slot</h4><p>Reserve your preferred date and time for document verification.</p></div><ArrowRight className="card-arrow" /></button>
           <button className="feature-card feature-yellow" onClick={() => setActivePanel('documents')}><span className="icon-box"><FileCheck2 /></span><div><p className="card-label">02 · PREPARATION</p><h4>Documents to bring</h4><p>A clear checklist of originals, copies and photographs.</p></div><ArrowRight className="card-arrow" /></button>
