@@ -19,6 +19,7 @@ import {
   MapPin,
   Menu,
   Navigation,
+  Phone,
   ShieldCheck,
   Shirt,
   UserRound,
