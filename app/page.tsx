@@ -171,8 +171,8 @@ export default function Page() {
     <main className="min-h-screen bg-background text-foreground">
       <header className="site-header shell">
         <div className="brand-wrap">
-          <div className="brand-mark"><img src="https://www.adityauniversity.in/public/frontend/assets/images/site-logo.svg" alt="Aditya University official logo" /></div>
-          <div><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div>
+<div className="brand-mark"><img src="https://www.adityauniversity.in/public/frontend/assets/images/site-logo.svg" alt="Aditya University official crest" /></div><div className="accreditation-badge" aria-label="Accredited by NAAC A++ Grade"><span className="naac-seal">A++</span><span><strong>NAAC</strong><small>Accredited</small></span></div>
+ <div className="brand-copy"><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div>
         </div>
         <div className="header-actions"><span className="help-chip"><Phone size={15} /> +91 98480 12345</span><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div>
       </header>
