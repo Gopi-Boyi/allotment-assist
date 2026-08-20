@@ -62,13 +62,6 @@ export default function Page() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="topbar">
-        <div className="shell topbar-inner">
-          <span>Aditya University · MCA Admissions 2026</span>
-          <div className="toplinks"><span>Student Helpdesk</span><span>Telugu / English</span></div>
-        </div>
-      </div>
-
       <header className="site-header shell">
         <div className="brand-wrap">
           <div className="brand-mark"><img src="https://www.adityauniversity.in/public/frontend/assets/images/site-logo.svg" alt="Aditya University official logo" /></div>
