@@ -34,11 +34,19 @@ export default function Page() {
   const [slotOpen, setSlotOpen] = useState(false)
   const [selectedSlot, setSelectedSlot] = useState('')
   const [booked, setBooked] = useState(false)
+  const [bookingDetails, setBookingDetails] = useState({ name: '', mobile: '', email: '', address: '' })
 
   const openSlot = () => {
     setBooked(false)
+    setSelectedSlot('')
     setSlotOpen(true)
   }
+
+  const updateBookingDetails = (field: keyof typeof bookingDetails, value: string) => {
+    setBookingDetails((current) => ({ ...current, [field]: value }))
+  }
+
+  const canConfirm = Object.values(bookingDetails).every(Boolean) && selectedSlot
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -90,7 +98,7 @@ export default function Page() {
 
       <footer className="site-footer"><div className="shell footer-inner"><div><p className="brand-kicker">ADITYA UNIVERSITY</p><p>Making your first step simpler.</p></div><p>© 2026 MCA Admissions Helpdesk</p></div></footer>
 
-      {slotOpen && <div className="modal-backdrop" role="presentation"><section className="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slot-title"><button className="close-btn" onClick={() => setSlotOpen(false)} aria-label="Close booking dialog"><X size={19} /></button>{booked ? <div className="booking-success"><span className="success-icon"><Check /></span><p className="section-label">SLOT RESERVED</p><h2>You&apos;re all set.</h2><p>Your MCA allotment visit is booked for <strong>{selectedSlot}</strong>. Please bring the documents listed on this website.</p><button className="primary-btn" onClick={() => setSlotOpen(false)}>Done <Check size={17} /></button></div> : <><p className="section-label">MCA ALLOTMENT 2026</p><h2 id="slot-title">Book your reporting slot</h2><p className="modal-copy">Choose a convenient time to complete your document verification.</p><label className="field-label">Preferred date<select defaultValue="21 August 2026"><option>21 August 2026</option><option>22 August 2026</option><option>24 August 2026</option></select></label><p className="field-label">Available times</p><div className="slot-grid">{slots.map((slot) => <button key={slot} className={selectedSlot === slot ? 'slot-btn selected' : 'slot-btn'} onClick={() => setSelectedSlot(slot)}><Clock3 size={15} />{slot}</button>)}</div><button className="primary-btn full-btn" disabled={!selectedSlot} onClick={() => setBooked(true)}>Confirm slot <ArrowRight size={17} /></button></>}</section></div>}
+      {slotOpen && <div className="modal-backdrop" role="presentation"><section className="slot-modal" role="dialog" aria-modal="true" aria-labelledby="slot-title"><button className="close-btn" onClick={() => setSlotOpen(false)} aria-label="Close booking dialog"><X size={19} /></button>{booked ? <div className="booking-success"><span className="success-icon"><Check /></span><p className="section-label">SLOT RESERVED</p><h2>You&apos;re all set.</h2><p>Your MCA allotment visit is booked for <strong>{selectedSlot}</strong>. Please bring the documents listed on this website.</p><button className="primary-btn" onClick={() => setSlotOpen(false)}>Done <Check size={17} /></button></div> : <><p className="section-label">MCA ALLOTMENT 2026</p><h2 id="slot-title">Book your reporting slot</h2><p className="modal-copy">Enter your details first, then choose an available time for document verification.</p><div className="booking-fields"><label className="field-label">Full name<input value={bookingDetails.name} onChange={(event) => updateBookingDetails('name', event.target.value)} placeholder="Enter your full name" /></label><label className="field-label">Mobile number<input type="tel" value={bookingDetails.mobile} onChange={(event) => updateBookingDetails('mobile', event.target.value)} placeholder="10-digit mobile number" /></label><label className="field-label">Email address<input type="email" value={bookingDetails.email} onChange={(event) => updateBookingDetails('email', event.target.value)} placeholder="you@example.com" /></label><label className="field-label">Address<textarea value={bookingDetails.address} onChange={(event) => updateBookingDetails('address', event.target.value)} placeholder="Enter your current address" rows={2} /></label></div><label className="field-label">Preferred date<select defaultValue="21 August 2026"><option>21 August 2026</option><option>22 August 2026</option><option>24 August 2026</option></select></label><p className="field-label">Available times</p><div className="slot-grid">{slots.map((slot) => <button key={slot} className={selectedSlot === slot ? 'slot-btn selected' : 'slot-btn'} onClick={() => setSelectedSlot(slot)}><Clock3 size={15} />{slot}</button>)}</div><button className="primary-btn full-btn" disabled={!canConfirm} onClick={() => setBooked(true)}>Confirm slot <ArrowRight size={17} /></button></>}</section></div>}
     </main>
   )
 }
