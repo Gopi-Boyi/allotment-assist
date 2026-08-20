@@ -89,7 +89,7 @@ export default function Page() {
       {activePanel === 'home' && <>
         <section className="status-strip shell" aria-label="Admissions status"><div className="status-item"><span className="status-dot" /> MCA allotment reporting is open</div><div className="status-divider" /><div className="status-item"><CalendarDays size={15} /> Next available date: <strong>21 August 2026</strong></div><button className="status-link" onClick={openSlot}>Reserve now <ArrowRight size={14} /></button></section>
         <section className="hero shell">
-          <div className="hero-video" aria-hidden="true"><iframe src="https://www.youtube-nocookie.com/embed/xo7Z8Msvz6I?autoplay=1&mute=1&loop=1&playlist=xo7Z8Msvz6I&controls=0&disablekb=1&fs=0&playsinline=1&rel=0&modestbranding=1" title="Aditya University campus video" allow="autoplay; encrypted-media" /></div>
+          <div className="hero-video" aria-hidden="true"><iframe src="https://www.youtube-nocookie.com/embed/xo7Z8Msvz6I?autoplay=1&mute=1&loop=1&playlist=xo7Z8Msvz6I&controls=0&disablekb=1&fs=0&playsinline=1&rel=0&modestbranding=1" title="Aditya University campus video" allow="autoplay; encrypted-media" tabIndex={-1} /></div>
           <div className="hero-copy">
             <span className="hero-glow" aria-hidden="true" />
             <div className="eyebrow"><span className="eyebrow-line" /> MCA ALLOTMENT 2026</div>
