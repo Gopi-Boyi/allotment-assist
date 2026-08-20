@@ -91,10 +91,11 @@ export default function Page() {
         <section className="hero shell">
           <div className="hero-video" aria-hidden="true"><iframe src="https://www.youtube-nocookie.com/embed/xo7Z8Msvz6I?autoplay=1&mute=1&loop=1&playlist=xo7Z8Msvz6I&controls=0&disablekb=1&fs=0&playsinline=1&rel=0&modestbranding=1" title="Aditya University campus video" allow="autoplay; encrypted-media" /></div>
           <div className="hero-copy">
+            <span className="hero-glow" aria-hidden="true" />
             <div className="eyebrow"><span className="eyebrow-line" /> MCA ALLOTMENT 2026</div>
             <h2>Your seat is confirmed.<br /><em>Let&apos;s make your visit easy.</em></h2>
             <p>One simple place to book your reporting slot, prepare your certificates, and reach the right block, floor and desk at Aditya University.</p>
-            <div className="hero-actions"><button className="primary-btn" onClick={openSlot}>Book your slot <ArrowRight size={17} /></button><button className="text-btn" onClick={() => setActivePanel('documents')}>View documents <ArrowRight size={16} /></button></div>
+            <div className="hero-actions"><button className="primary-btn" onClick={openSlot}>Book your slot <ArrowRight size={17} /></button><button className="text-btn" onClick={() => setActivePanel('documents')}>View documents <ArrowRight size={16} /></button></div><div className="trust-badge"><span className="trust-avatars"><span /><span /><span /></span><span><strong>500+ students</strong> already booked their visit</span></div>
           </div>
 
         </section>
