@@ -8,7 +8,11 @@ import {
   Check,
   Clock3,
   FileCheck2,
+  FileText,
   GraduationCap,
+  IdCard,
+  ImageIcon,
+  ScrollText,
   Mail,
   MapPin,
   Menu,
@@ -20,16 +24,16 @@ import {
 } from 'lucide-react'
 
 const documents = [
-  { title: 'SSC / 10th Certificate', note: 'Original + 2 photocopies' },
-  { title: 'Intermediate / 12th Certificate', note: 'Original + 2 photocopies' },
-  { title: 'Degree / Provisional Certificate', note: 'Original + 2 photocopies' },
-  { title: 'Transfer Certificate', note: 'Original document' },
-  { title: 'Student Aadhaar Card', note: 'Original + 2 photocopies' },
-  { title: 'Mother’s Aadhaar Card', note: 'Copy required for verification' },
-  { title: 'Father’s Aadhaar Card', note: 'Copy required for verification' },
-  { title: 'Caste & Income Certificate', note: 'Latest valid certificate + 2 photocopies' },
-  { title: 'Study Certificate', note: 'Original certificate + 2 photocopies' },
-  { title: 'Recent Passport Photos', note: '4 copies, colour photographs' },
+  { category: 'Academic Certificates', title: 'SSC / 10th Certificate', note: 'Original + 2 photocopies', icon: GraduationCap },
+  { category: 'Academic Certificates', title: 'Intermediate / 12th Certificate', note: 'Original + 2 photocopies', icon: GraduationCap },
+  { category: 'Academic Certificates', title: 'Degree / Provisional Certificate', note: 'Original + 2 photocopies', icon: GraduationCap },
+  { category: 'Academic Certificates', title: 'Transfer Certificate', note: 'Original document', icon: ScrollText },
+  { category: 'Academic Certificates', title: 'Study Certificate', note: 'Original certificate + 2 photocopies', icon: FileText },
+  { category: 'Identity Documents', title: 'Student Aadhaar Card', note: 'Original + 2 photocopies', icon: IdCard },
+  { category: 'Identity Documents', title: 'Mother’s Aadhaar Card', note: 'Copy required for verification', icon: IdCard },
+  { category: 'Identity Documents', title: 'Father’s Aadhaar Card', note: 'Copy required for verification', icon: IdCard },
+  { category: 'Other Requirements', title: 'Caste & Income Certificate', note: 'Latest valid certificate + 2 photocopies', icon: FileText },
+  { category: 'Other Requirements', title: 'Recent Passport Photos', note: '4 copies, colour photographs', icon: ImageIcon },
 ]
 
 const slots = Array.from({ length: 14 }, (_, index) => {
@@ -102,7 +106,7 @@ export default function Page() {
         </section>
       </>}
 
-      {activePanel === 'documents' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">PREPARE BEFORE YOU ARRIVE</p><h2>Documents to bring</h2><p>Keep the originals and photocopies ready for a quick verification.</p></div><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><div className="document-list">{documents.map((doc, index) => <div className="document-row" key={doc.title}><span className="doc-number">{String(index + 1).padStart(2, '0')}</span><span className="doc-check"><Check size={16} /></span><div><h4>{doc.title}</h4><p>{doc.note}</p></div></div>)}</div><div className="notice"><ShieldCheck size={21} /><p><strong>Keep one extra set of photocopies.</strong> All documents should be clear and self-attested where required.</p></div></section>}
+      {activePanel === 'documents' && <section className="shell panel-page"><div className="panel-heading"><div><div className="heading-with-icon"><span className="heading-icon"><FileCheck2 size={22} /></span><div><p className="section-label">PREPARE BEFORE YOU ARRIVE</p><h2>Documents to bring</h2></div></div><p>Keep the originals and photocopies ready for a quick verification.</p></div><span className="document-summary">{documents.length} documents required</span><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><div className="document-list">{['Academic Certificates', 'Identity Documents', 'Other Requirements'].map((category) => <section className="document-group" key={category}><div className="group-heading"><h3>{category}</h3><span>{documents.filter((doc) => doc.category === category).length} items</span></div><div className="document-group-grid">{documents.filter((doc) => doc.category === category).map((doc, index) => { const Icon = doc.icon; const number = documents.indexOf(doc) + 1; return <div className="document-row" key={doc.title}><span className="doc-number">{String(number).padStart(2, '0')}</span><span className="doc-type-icon"><Icon size={18} /></span><div className="doc-copy"><h4>{doc.title}</h4><p>{doc.note}</p></div><span className="doc-check"><Check size={15} /></span></div> })}</div></section>)}</div><div className="notice"><span className="notice-icon"><ShieldCheck size={18} /></span><p><strong>Keep one extra set of photocopies.</strong> All documents should be clear and self-attested where required.</p></div></section>}
 
       {activePanel === 'navigation' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">ARRIVE WITH CONFIDENCE</p><h2>Campus navigation</h2><p>Follow this route from the main gate to your MCA verification desk.</p></div><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><p className="map-microcopy"><MapPin size={15} /> Estimated walk time: 5–7 minutes from the Main Gate</p><div className="navigation-layout"><div className="map-column"><div className="campus-map location-map"><iframe src="https://www.google.com/maps?q=Ratan+Tata+Bhavan,+33Q8%2B5QW,+Surampalem,+Andhra+Pradesh+533437&z=17&output=embed" title="Ratan Tata Bhavan allotment block location" loading="lazy" /><div className="location-map-label"><MapPin size={16} /><span><strong>Allotment Block</strong><small>Ratan Tata Bhavan · Main Gate</small></span></div></div></div><div className="route-details"><div className="route-timeline"><div className="route-step"><span className="step-number">1</span><div><p className="card-label">FROM THE MAIN GATE</p><h4><Navigation size={17} /> Walk to MCA Block</h4><p>Follow the central pathway past the Admin Block. It takes about 4 minutes.</p></div></div><div className="route-step"><span className="step-number">2</span><div><p className="card-label">YOUR DESK</p><h4><Building2 size={17} /> First Floor · Room 104</h4><p>Meet <strong>Ms. Priya Reddy</strong> at the MCA Admissions Desk.</p></div></div></div><div className="route-contact"><span className="route-icon"><UserRound size={18} /></span><div><p>Need help on campus?</p><strong>Ask for the MCA Helpdesk</strong></div></div><a className="map-link" href="https://www.google.com/maps/dir/17.0878598,82.0667294/Ratan+Tata+bhavan,+33Q8%2B5QW,+Surampalem,+Andhra+Pradesh+533437/@17.0879004,82.0661162,820m/data=!3m1!1e3!4m19!1m8!3m7!1s0x3a3783990a76753b:0x365242eaa56135df!2sRatan+Tata+bhavan!8m2!3d17.087988!4d82.0663919!15sCiNhZGl0eWEgdW5pdmVyc2l0eSByYXRhbiB0YXRhIGJoYXZhblolIiNhZGl0eWEgdW5pdmVyc2l0eSByYXRhbiB0YXRhIGJoYXZhbpIBB2NvbGxlZ2WaAURDaTlEUVVsUlFVTnZaRU5vZEhsalJqbHZUMjE0ZUZNelVUVmFNMVo1V1ZSU1FsWXdNVVZXTUhCSlZtcENUVTB4UlJBQuABAPoBBAgAEB0!16s%2Fg%2F11t8bynrwn!4m9!1m1!4e1!1m5!1m1!1s0x3a3783990a76753b:0x365242eaa56135df!2m2!1d82.0663871!2d17.0879878!3e2?entry=ttu" target="_blank" rel="noreferrer"><span className="route-icon"><MapPin size={17} /></span><span><strong>Open allotment block in Google Maps</strong><small>Ratan Tata Bhavan · 17.087988, 82.066392</small></span><ArrowRight size={16} /></a></div></div></section>}
 
