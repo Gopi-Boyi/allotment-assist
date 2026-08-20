@@ -61,7 +61,7 @@ export default function Page() {
 
       <header className="site-header shell">
         <div className="brand-wrap">
-          <div className="brand-mark" aria-hidden="true"><GraduationCap size={29} strokeWidth={1.8} /></div>
+          <div className="brand-mark"><img src="https://www.adityauniversity.in/public/frontend/assets/images/site-logo.svg" alt="Aditya University official logo" /></div>
           <div><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div>
         </div>
         <div className="header-actions"><span className="help-chip"><Phone size={15} /> +91 98480 12345</span><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div>
@@ -88,11 +88,11 @@ export default function Page() {
           </div>
           <div className="hero-visual" aria-label="Aditya University campus illustration"><div className="sun" /><div className="building building-a"><span>ADITYA</span></div><div className="building building-b"><span>UNIVERSITY</span></div><div className="building building-c" /><div className="tree tree-one" /><div className="tree tree-two" /><div className="path" /></div>
         </section>
-        <section className="shell intro-grid"><div><p className="section-label">START HERE</p><h3>Everything you need<br />before you arrive.</h3></div><div className="intro-side"><p className="intro-text">Skip the queues and uncertainty. Choose a time that works for you, carry the right originals, and follow our clear campus directions to complete your MCA allotment smoothly.</p><div className="arrival-note"><ShieldCheck size={17} /><span><strong>Reporting tip</strong> Arrive 15 minutes before your slot.</span></div></div></section>
+        <section className="shell intro-grid"><div><p className="section-label">START HERE</p><h3>Everything you need<br />before you arrive.</h3><p className="source-note">University details sourced from <a href="https://www.adityauniversity.in/" target="_blank" rel="noreferrer">adityauniversity.in</a>.</p></div><div className="intro-side"><p className="intro-text">Skip the queues and uncertainty. Choose a time that works for you, carry the right originals, and follow our clear campus directions to complete your MCA allotment smoothly.</p><div className="arrival-note"><ShieldCheck size={17} /><span><strong>Reporting tip</strong> Arrive 15 minutes before your slot.</span></div></div></section>
         <section className="shell feature-grid">
           <button className="feature-card feature-blue" onClick={openSlot}><span className="icon-box"><CalendarDays /></span><div><p className="card-label">01 · APPOINTMENT</p><h4>Book a reporting slot</h4><p>Reserve your preferred date and time for document verification.</p></div><ArrowRight className="card-arrow" /></button>
           <button className="feature-card feature-yellow" onClick={() => setActivePanel('documents')}><span className="icon-box"><FileCheck2 /></span><div><p className="card-label">02 · PREPARATION</p><h4>Documents to bring</h4><p>A clear checklist of originals, copies and photographs.</p></div><ArrowRight className="card-arrow" /></button>
-          <button className="feature-card feature-green" onClick={() => setActivePanel('navigation')}><span className="icon-box"><Navigation /></span><div><p className="card-label">03 · ON CAMPUS</p><h4>Find your way</h4><p>Block, floor, room and the person you need to meet.</p></div><ArrowRight className="card-arrow" /></button>
+          <button className="feature-card feature-green" onClick={() => setActivePanel('navigation')}><span className="icon-box"><Navigation /></span><div><p className="card-label">03 · ON CAMPUS</p><h4>Find your way</h4><p>Block, floor, room and the person you need to meet.</p></div><ArrowRight className="card-arrow" /></button><button className="feature-card feature-white" onClick={() => setActivePanel('university')}><span className="icon-box"><Building2 /></span><div><p className="card-label">04 · OFFICIAL DETAILS</p><h4>About Aditya University</h4><p>Address, MCA eligibility, fee guidance and official contacts.</p></div><ArrowRight className="card-arrow" /></button>
         </section>
       </>}
 
