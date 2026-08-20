@@ -24,7 +24,11 @@ const documents = [
   { title: 'Intermediate / 12th Certificate', note: 'Original + 2 photocopies' },
   { title: 'Degree / Provisional Certificate', note: 'Original + 2 photocopies' },
   { title: 'Transfer Certificate', note: 'Original document' },
-  { title: 'Aadhaar Card', note: 'Original + 2 photocopies' },
+  { title: 'Student Aadhaar Card', note: 'Original + 2 photocopies' },
+  { title: 'Mother’s Aadhaar Card', note: 'Copy required for verification' },
+  { title: 'Father’s Aadhaar Card', note: 'Copy required for verification' },
+  { title: 'Caste & Income Certificate', note: 'Latest valid certificate + 2 photocopies' },
+  { title: 'Study Certificate', note: 'Original certificate + 2 photocopies' },
   { title: 'Recent Passport Photos', note: '4 copies, colour photographs' },
 ]
 
