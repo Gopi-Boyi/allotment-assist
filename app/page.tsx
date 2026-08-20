@@ -19,7 +19,6 @@ import {
   MapPin,
   Menu,
   Navigation,
-  Phone,
   ShieldCheck,
   Shirt,
   UserRound,
@@ -170,11 +169,8 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="site-header shell">
-        <div className="brand-wrap">
-          <div className="brand-mark"><img src="https://www.adityauniversity.in/public/frontend/assets/images/site-logo.svg" alt="Aditya University official logo" /></div>
-          <div><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div>
-        </div>
-        <div className="header-actions"><span className="help-chip"><Phone size={15} /> +91 98480 12345</span><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div>
+        <div className="header-branding"><div className="brand-mark"><img src="/aditya-university-logo.svg" alt="Aditya University official logo and crest" /></div><div className="accreditation-badge" aria-label="Accredited by NAAC A++ Grade"><img src="/naac-logo.svg" alt="NAAC A++ accreditation" /></div></div>
+        <div className="header-right"><div className="brand-copy"><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div><div className="header-actions"><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div></div>
       </header>
 
       <nav className="nav-strip" aria-label="Primary navigation">
