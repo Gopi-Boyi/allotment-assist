@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import {
   ArrowRight,
+  Building2,
   CalendarDays,
   Check,
   ChevronDown,
   Clock3,
   FileCheck2,
   GraduationCap,
+  Mail,
   MapPin,
   Menu,
   Navigation,
@@ -30,7 +32,7 @@ const documents = [
 const slots = ['09:30 AM', '10:30 AM', '11:30 AM', '02:00 PM', '03:00 PM']
 
 export default function Page() {
-  const [activePanel, setActivePanel] = useState<'home' | 'documents' | 'navigation'>('home')
+  const [activePanel, setActivePanel] = useState<'home' | 'documents' | 'navigation' | 'university'>('home')
   const [slotOpen, setSlotOpen] = useState(false)
   const [selectedSlot, setSelectedSlot] = useState('')
   const [booked, setBooked] = useState(false)
@@ -70,6 +72,7 @@ export default function Page() {
           <button className={activePanel === 'home' ? 'nav-link active' : 'nav-link'} onClick={() => setActivePanel('home')}>Home</button>
           <button className={activePanel === 'documents' ? 'nav-link active' : 'nav-link'} onClick={() => setActivePanel('documents')}>Documents</button>
           <button className={activePanel === 'navigation' ? 'nav-link active' : 'nav-link'} onClick={() => setActivePanel('navigation')}>Campus Navigation</button>
+          <button className={activePanel === 'university' ? 'nav-link active' : 'nav-link'} onClick={() => setActivePanel('university')}>University Info</button>
           <button className="nav-link" onClick={openSlot}>Book Slot</button>
         </div>
       </nav>
@@ -96,6 +99,8 @@ export default function Page() {
       {activePanel === 'documents' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">PREPARE BEFORE YOU ARRIVE</p><h2>Documents to bring</h2><p>Keep the originals and photocopies ready for a quick verification.</p></div><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><div className="document-list">{documents.map((doc, index) => <div className="document-row" key={doc.title}><span className="doc-number">{String(index + 1).padStart(2, '0')}</span><span className="doc-check"><Check size={16} /></span><div><h4>{doc.title}</h4><p>{doc.note}</p></div></div>)}</div><div className="notice"><ShieldCheck size={21} /><p><strong>Keep one extra set of photocopies.</strong> All documents should be clear and self-attested where required.</p></div></section>}
 
       {activePanel === 'navigation' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">ARRIVE WITH CONFIDENCE</p><h2>Campus navigation</h2><p>Follow this route from the main gate to your MCA verification desk.</p></div><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><div className="navigation-layout"><div className="campus-map"><div className="map-label gate">MAIN GATE</div><div className="map-road road-one" /><div className="map-road road-two" /><div className="map-block block-admin">ADMIN BLOCK</div><div className="map-block block-mca"><span>MCA BLOCK</span><small>YOUR DESTINATION</small></div><div className="map-block block-library">LIBRARY</div><div className="map-dot dot-you" /><div className="map-label you-label">You are here</div></div><div className="route-details"><div className="route-step"><span>1</span><div><p className="card-label">FROM THE MAIN GATE</p><h4>Walk to MCA Block</h4><p>Follow the central pathway past the Admin Block. It takes about 4 minutes.</p></div></div><div className="route-step"><span>2</span><div><p className="card-label">YOUR DESK</p><h4>First Floor · Room 104</h4><p>Meet <strong>Ms. Priya Reddy</strong> at the MCA Admissions Desk.</p></div></div><div className="route-contact"><UserRound size={18} /><div><p>Need help on campus?</p><strong>Ask for the MCA Helpdesk</strong></div></div></div></div></section>}
+
+      {activePanel === 'university' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">OFFICIAL UNIVERSITY DETAILS</p><h2>About Aditya University</h2><p>Verified details to help you reach the right campus and prepare for MCA reporting.</p></div><a className="outline-btn" href="https://adityauniversity.in" target="_blank" rel="noreferrer">Open official website <ArrowRight size={16} /></a></div><div className="university-layout"><div className="campus-photo" role="img" aria-label="Aditya University campus information panel"><div className="photo-sky" /><div className="photo-building"><span>ADITYA</span><small>UNIVERSITY</small></div><div className="photo-ground" /><div className="photo-caption"><Building2 size={17} /><span>Aditya Nagar campus<br /><strong>Surampalem, Kakinada</strong></span></div></div><div className="university-details"><div className="detail-card"><MapPin size={18} /><div><p className="card-label">CAMPUS ADDRESS</p><p>Aditya Nagar, ADB Road,<br />Surampalem, Kakinada District,<br />Andhra Pradesh – 533437</p></div></div><div className="detail-card"><GraduationCap size={18} /><div><p className="card-label">MCA PROGRAMME</p><p><strong>Eligibility:</strong> Recognized 3 or 4-year bachelor&apos;s degree with Mathematics at 10+2 level.</p><p><strong>Tuition:</strong> Approximately ₹1,00,000 per year.</p></div></div><div className="detail-card"><Phone size={18} /><div><p className="card-label">ADMISSIONS HELPLINE</p><p><a href="tel:+919989776661">+91 9989 776661</a><br /><Mail size={13} className="inline-icon" /> <a href="mailto:info@adityauniversity.in">info@adityauniversity.in</a></p></div></div></div></div></section>}
 
       <footer className="site-footer"><div className="shell footer-inner"><div><p className="brand-kicker">ADITYA UNIVERSITY</p><p>Making your first step simpler.</p></div><p>© 2026 MCA Admissions Helpdesk</p></div></footer>
 
