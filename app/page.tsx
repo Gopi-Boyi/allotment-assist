@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { jsPDF } from 'jspdf'
 import {
   ArrowRight,
   Building2,
   CalendarDays,
   Check,
+  Download,
   Clock3,
   FileCheck2,
   FileText,
@@ -78,6 +80,67 @@ export default function Page() {
 
   const canConfirm = Object.values(bookingDetails).every(Boolean) && selectedSlot
 
+  const downloadChecklist = async () => {
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4' })
+    const margin = 18
+    const pageWidth = pdf.internal.pageSize.getWidth()
+    let y = 20
+
+    pdf.setTextColor(17, 24, 39)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setFontSize(10)
+    pdf.text('ADITYA UNIVERSITY', margin, y)
+    pdf.setTextColor(79, 70, 229)
+    pdf.text('MCA ADMISSIONS 2026', pageWidth - margin, y, { align: 'right' })
+    y += 14
+    pdf.setTextColor(17, 24, 39)
+    pdf.setFontSize(20)
+    pdf.text('Documents to Bring', margin, y)
+    y += 7
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(107, 114, 128)
+    pdf.setFontSize(10)
+    pdf.text('MCA Allotment Reporting Checklist', margin, y)
+    y += 14
+
+    const categories = ['Academic Certificates', 'Identity Documents', 'Other Requirements']
+    for (const category of categories) {
+      pdf.setTextColor(79, 70, 229)
+      pdf.setFont('helvetica', 'bold')
+      pdf.setFontSize(11)
+      pdf.text(category, margin, y)
+      y += 8
+      documents.filter((document) => document.category === category).forEach((document) => {
+        if (y > 270) { pdf.addPage(); y = 20 }
+        const number = String(documents.indexOf(document) + 1).padStart(2, '0')
+        pdf.setDrawColor(17, 24, 39)
+        pdf.rect(margin, y - 4, 4, 4)
+        pdf.setTextColor(17, 24, 39)
+        pdf.setFont('helvetica', 'bold')
+        pdf.setFontSize(10)
+        pdf.text(`${number}  ${document.title}`, margin + 8, y)
+        pdf.setFont('helvetica', 'normal')
+        pdf.setTextColor(75, 85, 99)
+        pdf.setFontSize(9)
+        pdf.text(document.note, margin + 8, y + 5)
+        y += 15
+      })
+      y += 5
+    }
+
+    if (y > 265) { pdf.addPage(); y = 20 }
+    pdf.setFillColor(255, 251, 235)
+    pdf.setDrawColor(245, 158, 11)
+    pdf.rect(margin, y, pageWidth - margin * 2, 18, 'FD')
+    pdf.setTextColor(17, 24, 39)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setFontSize(9)
+    pdf.text('Reminder', margin + 6, y + 7)
+    pdf.setFont('helvetica', 'normal')
+    pdf.text('Keep one extra set of photocopies. Documents should be clear and self-attested where required.', margin + 6, y + 13)
+    pdf.save('Aditya-University-MCA-Documents-Checklist.pdf')
+  }
+
   useEffect(() => {
     if (!slotOpen) return
     const previous = document.activeElement as HTMLElement | null
@@ -145,7 +208,7 @@ export default function Page() {
         </section>
       </>}
 
-      {activePanel === 'documents' && <section className="shell panel-page"><div className="panel-heading"><div><div className="heading-with-icon"><span className="heading-icon"><FileCheck2 size={22} /></span><div><p className="section-label">PREPARE BEFORE YOU ARRIVE</p><h2>Documents to bring</h2></div></div><p>Keep the originals and photocopies ready for a quick verification.</p></div><span className="document-summary">{documents.length} documents required</span><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><div className="document-list">{['Academic Certificates', 'Identity Documents', 'Other Requirements'].map((category) => <section className="document-group" key={category}><div className="group-heading"><h3>{category}</h3><span>{documents.filter((doc) => doc.category === category).length} items</span></div><div className="document-group-grid">{documents.filter((doc) => doc.category === category).map((doc, index) => { const Icon = doc.icon; const number = documents.indexOf(doc) + 1; return <div className="document-row" key={doc.title}><span className="doc-number">{String(number).padStart(2, '0')}</span><span className="doc-type-icon"><Icon size={18} /></span><div className="doc-copy"><h4>{doc.title}</h4><p>{doc.note}</p></div><span className="doc-check"><Check size={15} /></span></div> })}</div></section>)}</div><div className="notice"><span className="notice-icon"><ShieldCheck size={18} /></span><p><strong>Keep one extra set of photocopies.</strong> All documents should be clear and self-attested where required.</p></div></section>}
+      {activePanel === 'documents' && <section className="shell panel-page"><div className="panel-heading"><div><div className="heading-with-icon"><span className="heading-icon"><FileCheck2 size={22} /></span><div><p className="section-label">PREPARE BEFORE YOU ARRIVE</p><h2>Documents to bring</h2></div></div><p>Keep the originals and photocopies ready for a quick verification.</p></div><div className="document-actions"><span className="document-summary">{documents.length} documents required</span><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button><button className="pdf-btn" onClick={downloadChecklist}><Download size={16} /> Download checklist (PDF)</button></div></div><div className="document-list">{['Academic Certificates', 'Identity Documents', 'Other Requirements'].map((category) => <section className="document-group" key={category}><div className="group-heading"><h3>{category}</h3><span>{documents.filter((doc) => doc.category === category).length} items</span></div><div className="document-group-grid">{documents.filter((doc) => doc.category === category).map((doc, index) => { const Icon = doc.icon; const number = documents.indexOf(doc) + 1; return <div className="document-row" key={doc.title}><span className="doc-number">{String(number).padStart(2, '0')}</span><span className="doc-type-icon"><Icon size={18} /></span><div className="doc-copy"><h4>{doc.title}</h4><p>{doc.note}</p></div><span className="doc-check"><Check size={15} /></span></div> })}</div></section>)}</div><div className="notice"><span className="notice-icon"><ShieldCheck size={18} /></span><p><strong>Keep one extra set of photocopies.</strong> All documents should be clear and self-attested where required.</p></div></section>}
 
       {activePanel === 'navigation' && <section className="shell panel-page"><div className="panel-heading"><div><p className="section-label">ARRIVE WITH CONFIDENCE</p><h2>Campus navigation</h2><p>Follow this route from the main gate to your MCA verification desk.</p></div><button className="outline-btn" onClick={openSlot}>Book a slot <ArrowRight size={16} /></button></div><p className="map-microcopy"><MapPin size={15} /> Estimated walk time: 5–7 minutes from the Main Gate</p><div className="navigation-layout"><div className="map-column"><div className="campus-map location-map"><iframe src="https://www.google.com/maps?q=Ratan+Tata+Bhavan,+33Q8%2B5QW,+Surampalem,+Andhra+Pradesh+533437&z=17&output=embed" title="Ratan Tata Bhavan allotment block location" loading="lazy" /><div className="location-map-label"><MapPin size={16} /><span><strong>Campus journey</strong><small>Main Gate → MCA Block → Cotton Bhavan</small></span></div><div className="journey-path" aria-hidden="true" /><div className="journey-pin journey-pin-gate"><span>1</span><strong>Main Gate</strong></div><div className="journey-pin journey-pin-mca"><span>2</span><strong>MCA Block</strong></div><div className="journey-pin journey-pin-cotton"><span>3</span><strong>Cotton Bhavan</strong></div></div></div><div className="route-details"><div className="route-timeline"><div className="route-step"><span className="step-number">1</span><div><p className="card-label">FROM THE MAIN GATE</p><h4><Navigation size={17} /> Walk to MCA Block</h4><p>Follow the central pathway past the Admin Block. It takes about 4 minutes.</p><a className="step-map-link" href="https://www.google.com/maps/search/?api=1&query=17.0878598,82.0667294" target="_blank" rel="noreferrer"><MapPin size={14} /> Open in Google Maps</a></div></div><div className="route-step"><span className="step-number">2</span><div><p className="card-label">YOUR DESK</p><h4><Building2 size={17} /> First Floor · Room 104</h4><p>Meet <strong>Ms. Priya Reddy</strong> at the MCA Admissions Desk.</p><a className="step-map-link" href="https://www.google.com/maps/search/?api=1&query=17.087988,82.066392" target="_blank" rel="noreferrer"><MapPin size={14} /> Open in Google Maps</a></div></div><div className="route-step"><span className="step-number">3</span><div><p className="card-label">AFTER ALLOTMENT</p><h4><Shirt size={17} /> Cotton Bhavan · Cash Counter</h4><p><strong>₹1,800</strong> · Cash payment only, no UPI/card accepted. Open <strong>9:00 AM – 4:00 PM</strong>.<br /><span className="coordinates">17.0879784, 82.0669404</span></p><a className="step-map-link" href="https://www.google.com/maps/place/Cotton+Bhavan/@17.0879719,82.066973,498m/data=!3m1!1e3!4m6!3m5!1s0x3a3782e1e3fdd3f5:0x745945becc24b317!8m2!3d17.0879784!4d82.0669404!16s%2Fg%2F12lt2k4tt" target="_blank" rel="noreferrer"><MapPin size={14} /> Open in Google Maps</a></div></div></div></div></div></section>}
 
