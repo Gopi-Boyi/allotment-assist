@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { jsPDF } from 'jspdf'
 
 const CampusJourneyMap = dynamic(() => import('@/components/campus-journey-map').then((module) => module.CampusJourneyMap), { ssr: false, loading: () => <div className="map-fallback" role="status">Loading campus map…</div> })
@@ -175,8 +176,8 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="site-header shell">
-        <div className="header-branding"><div className="brand-mark"><img src="/aditya-university-logo.svg" alt="Aditya University official logo and crest" /></div><div className="accreditation-badge" aria-label="Accredited by NAAC A++ Grade"><img src="/naac-logo.svg" alt="NAAC A++ accreditation" /></div></div>
-        <div className="header-right"><div className="brand-copy"><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div><div className="header-actions"><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div></div>
+        <div className="header-branding"><Link href="/" className="brand-mark" aria-label="Go to Aditya University home"><img src="/aditya-university-logo.svg" alt="Aditya University official logo and crest" /></Link><div className="accreditation-badge" aria-label="Accredited by NAAC A++ Grade"><img src="/naac-logo.svg" alt="NAAC A++ accreditation" /></div></div>
+        <div className="header-right"><Link href="/" className="brand-copy" aria-label="Go to Aditya University home"><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></Link><div className="header-actions"><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div></div>
       </header>
 
       <nav className="nav-strip" aria-label="Primary navigation">
