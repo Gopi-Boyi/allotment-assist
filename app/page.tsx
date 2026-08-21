@@ -86,7 +86,8 @@ export default function Page() {
     setBookingDetails((current) => ({ ...current, [field]: value }))
   }
 
-  const canConfirm = Boolean(bookingDetails.name.trim() && bookingDetails.mobile.trim() && bookingDetails.email.trim() && bookingDetails.address.trim() && bookingDetails.accommodation && selectedSlot)
+  const canContinue = Boolean(bookingDetails.name.trim() && bookingDetails.mobile.trim() && bookingDetails.email.trim() && bookingDetails.address.trim() && bookingDetails.accommodation)
+  const canConfirm = Boolean(canContinue && selectedSlot)
 
   const downloadChecklist = async () => {
     const pdf = new jsPDF({ unit: 'mm', format: 'a4' })
