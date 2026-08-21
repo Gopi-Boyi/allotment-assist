@@ -6,31 +6,21 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Allotment Assist · Aditya University',
+  title: 'Allotment Assist - Aditya University',
   description: 'Book your MCA reporting slot, prepare documents, and navigate Aditya University campus for admissions.',
   openGraph: {
-    title: 'Allotment Assist · Aditya University',
+    title: 'Allotment Assist - Aditya University',
     description: 'Book your MCA reporting slot, prepare documents, and navigate Aditya University campus for admissions.',
-    images: ['/icon.svg'],
+    images: ['/aditya-university-logo.svg'],
     type: 'website',
   },
-  generator: 'v0.app',
   icons: {
     icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/aditya-university-logo.svg', type: 'image/svg+xml' },
     ],
-    apple: '/apple-icon.png',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 }
 
