@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { jsPDF } from 'jspdf'
-import { CampusJourneyMap } from '@/components/campus-journey-map'
+
+const CampusJourneyMap = dynamic(() => import('@/components/campus-journey-map').then((module) => module.CampusJourneyMap), { ssr: false, loading: () => <div className="map-fallback" role="status">Loading campus map…</div> })
 import {
   ArrowRight,
   Building2,
