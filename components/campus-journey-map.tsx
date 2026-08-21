@@ -1,6 +1,9 @@
 'use client'
 
-import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api'
+import 'leaflet/dist/leaflet.css'
+import { useEffect, useState } from 'react'
+import { MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet'
+import type { DivIcon } from 'leaflet'
 
 const locations = {
   gate: { lat: 17.0878598, lng: 82.0667294, label: 'Main Gate' },
@@ -8,43 +11,38 @@ const locations = {
   cotton: { lat: 17.0879784, lng: 82.0669404, label: 'Cotton Bhavan · Cash Counter' },
 }
 
-const route = [locations.gate, locations.mca, locations.cotton]
-
-const markerIcon = (color: string) => ({
-  path: google.maps.SymbolPath.CIRCLE,
-  fillColor: color,
-  fillOpacity: 1,
-  strokeColor: '#ffffff',
-  strokeWeight: 3,
-  scale: 10,
-})
+const route: [number, number][] = Object.values(locations).map(({ lat, lng }) => [lat, lng])
+const center: [number, number] = [17.08793, 82.06665]
 
 export function CampusJourneyMap() {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+  const [icons, setIcons] = useState<Record<string, DivIcon> | null>(null)
 
-  if (!apiKey) {
-    return <div className="map-fallback" role="status">Map unavailable. Add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable the campus journey map.</div>
-  }
+  useEffect(() => {
+    import('leaflet').then(({ default: L }) => {
+      const makeIcon = (color: string, number: string) => L.divIcon({
+        className: 'journey-marker-icon',
+        html: `<span style="background:${color}">${number}</span>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17],
+        popupAnchor: [0, -18],
+      })
+      setIcons({ gate: makeIcon('#16a34a', '1'), mca: makeIcon('#4f46e5', '2'), cotton: makeIcon('#d97706', '2') })
+    })
+  }, [])
+
+  if (!icons) return <div className="map-fallback" role="status">Loading campus map…</div>
 
   return (
-    <LoadScript googleMapsApiKey={apiKey} loadingElement={<div className="map-fallback">Loading Google Maps…</div>}>
-      <GoogleMap
-        mapContainerClassName="campus-google-map"
-        center={{ lat: 17.08793, lng: 82.06665 }}
-        zoom={17}
-        options={{
-          mapTypeControl: true,
-          streetViewControl: true,
-          fullscreenControl: true,
-          clickableIcons: true,
-        }}
-      >
-        <Marker position={locations.gate} label="1" title={locations.gate.label} icon={markerIcon('#16a34a')} />
-        <Marker position={locations.mca} label="2" title={locations.mca.label} icon={markerIcon('#4f46e5')} />
-        <Marker position={locations.cotton} label="2" title={locations.cotton.label} icon={markerIcon('#d97706')} />
-        <Polyline path={route} options={{ strokeColor: '#4f46e5', strokeOpacity: 0.8, strokeWeight: 3, icons: [{ icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 3 }, offset: '0', repeat: '12px' }] }} />
-      </GoogleMap>
-    </LoadScript>
+    <MapContainer className="campus-leaflet-map" center={center} zoom={17} scrollWheelZoom attributionControl>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[locations.gate.lat, locations.gate.lng]} icon={icons.gate}><Popup>{locations.gate.label}</Popup></Marker>
+      <Marker position={[locations.mca.lat, locations.mca.lng]} icon={icons.mca}><Popup>{locations.mca.label}</Popup></Marker>
+      <Marker position={[locations.cotton.lat, locations.cotton.lng]} icon={icons.cotton}><Popup>{locations.cotton.label}</Popup></Marker>
+      <Polyline positions={route} pathOptions={{ color: '#4f46e5', weight: 4, opacity: 0.8, dashArray: '10 10' }} />
+    </MapContainer>
   )
 }
 
