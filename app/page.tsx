@@ -176,8 +176,8 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="site-header shell">
-        <div className="header-branding"><Link href="/" className="brand-mark" aria-label="Go to Aditya University home"><img src="/aditya-university-logo.svg" alt="Aditya University official logo and crest" /><span className="brand-copy"><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></span></Link><div className="accreditation-badge" aria-label="Accredited by NAAC A++ Grade"><img src="/naac-logo.svg" alt="NAAC A++ accreditation" /></div></div>
-        <div className="header-right"><div className="header-actions"><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div></div>
+        <div className="header-branding"><Link href="/" className="brand-mark" aria-label="Go to Aditya University home"><img src="/aditya-university-logo.svg" alt="Aditya University emblem and logo" /></Link><div className="accreditation-badge" aria-label="Accredited by NAAC A++ Grade"><img src="/naac-logo.svg" alt="NAAC A++ accreditation" /></div></div>
+        <div className="header-right"><div className="brand-copy"><p className="brand-kicker">ADITYA UNIVERSITY</p><h1>Allotment Assist</h1></div><div className="header-actions"><button className="menu-btn" aria-label="Open menu"><Menu size={20} /></button></div></div>
       </header>
 
       <nav className="nav-strip" aria-label="Primary navigation">
